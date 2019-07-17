@@ -87,13 +87,13 @@ def extract_job_num(job_link):
 
 def get_all(uid, password):
     options = Options()
+
     # Heroku以外ではNone
-    if chrome_binary_path:
-        options.binary_location = chrome_binary_path
-        options.add_argument('--headless')
-
-        driver = Chrome(executable_path=driver_path, chrome_options=options)
-
+    # if chrome_binary_path:
+    options.binary_location = '/app/.apt/usr/bin/google-chrome'
+    # options.binary_location = chrome_binary_path
+    options.add_argument('--headless')
+    driver = webdriver.Chrome(chrome_options=options)
     #　ローカルの場合
     # options.add_argument('--headless')
     # driver = webdriver.Chrome(executable_path="/Users/shingo/webdriver/chromedriver", options=options)
