@@ -1,8 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from flask import Flask
+from flask import Flask, request
+
+from main import crawl
+
 app = Flask(__name__)
+
 
 @app.route("/")
 def index():
@@ -23,7 +27,12 @@ def get_all_jobs():
     job_list : list
     """
     if request.method == "GET":
-        pass
+        uid = request.args.get('uid')
+        password = request.args.get('password')
+        result = crawl.get_all(uid, password)
+
+        return result
+
     else:
         try:
             pass

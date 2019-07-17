@@ -8,6 +8,8 @@ verify_ssl = true
 [packages]
 gunicorn = "*"
 flask = "*"
+beautifulsoup4 = "*"
+selenium = "*"
 
 [requires]
 python_version = "3.6"
