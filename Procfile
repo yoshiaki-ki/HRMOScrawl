@@ -1,1 +1,1 @@
-web: gunicorn HRMOScrawl:main --log-file=-
+web: gunicorn hrmos-crawl:main --log-file=-
