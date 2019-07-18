@@ -27,9 +27,13 @@ def get_all_jobs():
     job_list : list
     """
     if request.method == "GET":
-        uid = request.args.get('uid')
-        password = request.args.get('password')
-        result = crawl.get_all(uid, password)
+        try:
+            uid = request.args.get('uid')
+            password = request.args.get('password')
+            result = crawl.get_all(uid, password)
+
+        except:
+            result = []
 
         return result
 
