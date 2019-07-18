@@ -18,7 +18,7 @@ def get_all_jobs():
     """
     企業、案件を全て取得する
     :param:
-    id : str
+    uid : str
         ログイン用ID
     password : str
         ログイン用パスワード

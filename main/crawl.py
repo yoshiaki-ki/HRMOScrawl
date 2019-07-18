@@ -88,15 +88,13 @@ def extract_job_num(job_link):
 def get_all(uid, password):
     options = Options()
 
-    # Heroku以外ではNone
-    # if chrome_binary_path:
     options.binary_location = '/app/.apt/usr/bin/google-chrome'
-    # options.binary_location = chrome_binary_path
     options.add_argument('--headless')
     driver = webdriver.Chrome(chrome_options=options)
+
     #　ローカルの場合
     # options.add_argument('--headless')
-    # driver = webdriver.Chrome(executable_path="/Users/shingo/webdriver/chromedriver", options=options)
+    # driver = webdriver.Chrome(executable_path="/Users/kiryu/webdriver/chromedriver", options=options)
 
     try:
         driver.get("https://hrmos.co/agent/login")
@@ -115,6 +113,7 @@ def get_all(uid, password):
         # 企業を取得
         companies = get_company(driver)
 
+        result = []
         for company_obj in companies:
             company_num = extract_company_num(company_obj["company_link"])
             # 企業ページのURLを取得
@@ -128,9 +127,10 @@ def get_all(uid, password):
                 job["company_name"] = company_obj["company_name"]
                 job["company_num"] = company_num
                 job["job_num"] = extract_job_num(job["job_link"])
+                result.append(job)
             time.sleep(2)
 
-        jsonstring = json.dumps(job_list, ensure_ascii=False,
+        jsonstring = json.dumps(result, ensure_ascii=False,
                                 indent=2)  # 作った配列をjson形式にして出力する
 
         return jsonstring
