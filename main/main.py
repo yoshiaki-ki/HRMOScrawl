@@ -54,7 +54,7 @@ class Crawl:
 
         try:
             self.login(driver)
-            time.sleep(1)
+            time.sleep(3)
             page_source = driver.page_source.encode('utf-8')
             soup = BeautifulSoup(page_source, "html.parser")
 
