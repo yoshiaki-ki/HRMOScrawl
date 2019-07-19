@@ -25,7 +25,7 @@ class Crawl:
         options.add_argument('--headless')
         driver = webdriver.Chrome(chrome_options=options)
 
-        # 　ローカルの場合
+        # # 　ローカルの場合
         # options.add_argument('--headless')
         # driver = webdriver.Chrome(executable_path="/Users/kiryu/webdriver/chromedriver", options=options)
 
@@ -59,6 +59,7 @@ class Crawl:
             soup = BeautifulSoup(page_source, "html.parser")
 
             company_items = soup.find_all("hrm-nav-list-detail-item")
+            print(company_items)
             companies_list = []
             for item in company_items:
                 try:
