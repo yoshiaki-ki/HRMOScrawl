@@ -3,7 +3,7 @@
 
 from flask import Flask, request
 
-from main import crawl
+from main import main
 
 app = Flask(__name__)
 
@@ -11,38 +11,6 @@ app = Flask(__name__)
 @app.route("/")
 def index():
     return "Hello World!"
-
-
-@app.route("/api/get/all", methods=["GET", "POST"])
-def get_all_jobs():
-    """
-    企業、案件を全て取得する
-    :param:
-    uid : str
-        ログイン用ID
-    password : str
-        ログイン用パスワード
-
-    :return:
-    job_list : list
-    """
-    if request.method == "GET":
-        try:
-            uid = request.args.get('uid')
-            password = request.args.get('password')
-            result = crawl.get_all(uid, password)
-
-        except:
-            result = []
-
-        return result
-
-    else:
-        try:
-            pass
-
-        except:
-            pass
 
 
 @app.route("/api/get/companies", methods=["GET", "POST"])
@@ -59,10 +27,16 @@ def get_companies():
     company_list : list
 
     """
-    pass
+    if request.method == "GET":
+        uid = request.args.get('uid')
+        password = request.args.get('password')
+
+        crawl = main.Crawl(uid, password)
+        company_list = crawl.get_company_list()
+
+        return company_list
 
 
-#
 @app.route("/api/get/jobs", methods=["GET", "POST"])
 def get_jobs():
     """
@@ -78,7 +52,15 @@ def get_jobs():
     :return:
     job_list : list
     """
-    pass
+    if request.method == "GET":
+        uid = request.args.get('uid')
+        password = request.args.get('password')
+        company_num = request.args.get('company_num')
+
+        crawl = main.Crawl(uid, password)
+        job_list = crawl.get_job_list(company_num)
+
+        return job_list
 
 
 if __name__ == '__main__':
