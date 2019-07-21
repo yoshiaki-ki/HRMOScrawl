@@ -9,6 +9,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 import time
 import traceback
 from selenium import webdriver
+import logging
 
 
 class Crawl:
@@ -31,7 +32,8 @@ class Crawl:
 
         url = "https://hrmos.co/agent/login"
         driver.get(url)
-        time.sleep(2)
+        time.sleep(3)
+        logging.info('Login画面に遷移')
         return driver
 
     # ID/PASS入力,Login
@@ -42,6 +44,7 @@ class Crawl:
         password.send_keys(self.password)
         login_button = driver.find_element_by_name("submit")
         login_button.click()
+        logging.info('Loginボタン押下')
 
     def get_company_list(self):
         """
@@ -59,7 +62,6 @@ class Crawl:
             soup = BeautifulSoup(page_source, "html.parser")
 
             company_items = soup.find_all("hrm-nav-list-detail-item")
-            print(company_items)
             companies_list = []
             for item in company_items:
                 try:
@@ -67,8 +69,10 @@ class Crawl:
                     company_item["company_link"] = item.a.get("href").strip()
                     company_item["company_name"] = item.find("span", class_="normal").text
                     company_item["company_num"] = re.search(r'\/[0-9]*\/', company_item["company_link"]).group().replace("/", "")
+                    logging.info('データ取得:{}'.format(company_item))
                     companies_list.append(company_item)
                 except:
+                    logging.error('データ取得失敗:{}'.format(item))
                     continue
 
             company_list = json.dumps(companies_list, ensure_ascii=False,
@@ -93,7 +97,7 @@ class Crawl:
 
         try:
             self.login(driver)
-            time.sleep(2)
+            time.sleep(3)
             # 遷移する
             driver.get(url)
             time.sleep(2)
@@ -101,7 +105,6 @@ class Crawl:
             soup = BeautifulSoup(page_source, "html.parser")
 
             job_items = soup.find_all("a", class_="ng-tns-c13-0")
-            print(job_items)
             job_list = []
             for item in job_items:
                 try:
@@ -110,7 +113,9 @@ class Crawl:
                     job_item["job_name"] = item.find("span", class_="normal").text
                     job_item["job_num"] = re.search(r'[0-9]*$', job_item["job_link"]).group()
                     job_list.append(job_item)
+                    logging.info('データ取得:{}'.format(job_item))
                 except:
+                    logging.error('データ取得失敗:{}'.format(item))
                     continue
 
             jobs_list = json.dumps(job_list, ensure_ascii=False,
