@@ -33,7 +33,7 @@ class Crawl:
         url = "https://hrmos.co/agent/login"
         driver.get(url)
         time.sleep(3)
-        logging.info('Login画面に遷移')
+        print('Login画面に遷移')
         return driver
 
     # ID/PASS入力,Login
@@ -44,7 +44,7 @@ class Crawl:
         password.send_keys(self.password)
         login_button = driver.find_element_by_name("submit")
         login_button.click()
-        logging.info('Loginボタン押下')
+        print('Loginボタン押下')
 
     def get_company_list(self):
         """
@@ -69,7 +69,7 @@ class Crawl:
                     company_item["company_link"] = item.a.get("href").strip()
                     company_item["company_name"] = item.find("span", class_="normal").text
                     company_item["company_num"] = re.search(r'\/[0-9]*\/', company_item["company_link"]).group().replace("/", "")
-                    logging.info('データ取得:{}'.format(company_item))
+                    print('データ取得:{}'.format(company_item))
                     companies_list.append(company_item)
                 except:
                     logging.error('データ取得失敗:{}'.format(item))
@@ -113,7 +113,7 @@ class Crawl:
                     job_item["job_name"] = item.find("span", class_="normal").text
                     job_item["job_num"] = re.search(r'[0-9]*$', job_item["job_link"]).group()
                     job_list.append(job_item)
-                    logging.info('データ取得:{}'.format(job_item))
+                    print('データ取得:{}'.format(job_item))
                 except:
                     logging.error('データ取得失敗:{}'.format(item))
                     continue
