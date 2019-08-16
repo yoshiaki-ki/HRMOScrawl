@@ -26,9 +26,9 @@ class Crawl:
         options.add_argument('--headless')
         driver = webdriver.Chrome(chrome_options=options)
 
-        # # 　ローカルの場合
+        # 　ローカルの場合
         # options.add_argument('--headless')
-        # driver = webdriver.Chrome(executable_path="/Users/kiryu/webdriver/chromedriver", options=options)
+        # driver = webdriver.Chrome(executable_path="/Users/shingo/webdriver/chromedriver", options=options)
 
         url = "https://hrmos.co/agent/login"
         driver.get(url)
@@ -123,6 +123,7 @@ class Crawl:
             return jobs_list
 
         except:
+            print('ログイン後、ページ遷移できていません。')
             traceback.print_exc()
         finally:
             # エラーが起きても起きなくてもブラウザを閉じる
